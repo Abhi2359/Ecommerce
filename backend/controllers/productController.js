@@ -1,5 +1,6 @@
 const Product =require("../models/productModel")
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const ErrorHandler = require("../utils/errorHandler");
 // Create Product -- Admin
 exports.createProduct = async (req,res,next)=>{
     const product =await Product.create(req.body);
@@ -24,10 +25,8 @@ exports.getProductDetails = async(req,res,next)=>{
     const product = await Product.findById(req.params.id);
 
     if(!product){
-        return res.status(500).json({
-       success:false,
-       message:"Product Not Found"
-        })
+     return(new ErrorHandler("Product Not Found",404))
+        
     }
     res.status(200).json({
         success:true,
