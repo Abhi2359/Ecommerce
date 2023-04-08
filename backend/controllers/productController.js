@@ -74,3 +74,6 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
     message: "Product Deleted",
   });
 });
+
+
+ 
