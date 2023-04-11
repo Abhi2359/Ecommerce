@@ -5,6 +5,7 @@ const catchAsyncError = require("../middleware/catchAsyncErrors");
 const ApiFeatures = require("../utils/apiFeatures");
 // Create Product -- Admin
 exports.createProduct = catchAsyncError(async (req, res, next) => {
+  req.body.user = req.user.id;
   const product = await Product.create(req.body);
   res.status(201).json({
     success: true,
@@ -14,7 +15,7 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
 //Get All Products
 exports.getAllProducts = catchAsyncError(async (req, res) => {
   const resultsPerPage = 5;
-  const productCount  = await Product.countDocuments()
+  const productCount = await Product.countDocuments();
 
   const apiFeature = new ApiFeatures(Product.find(), req.query)
     .search()
@@ -39,7 +40,7 @@ exports.getProductDetails = catchAsyncError(async (req, res, next) => {
   res.status(200).json({
     success: true,
     product,
-    productCount
+    productCount,
   });
 });
 
@@ -74,6 +75,3 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
     message: "Product Deleted",
   });
 });
-
-
- 

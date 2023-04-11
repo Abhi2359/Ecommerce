@@ -36,29 +36,55 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
   }
 
   const isPasswordMatched = await user.comparePassword(password);
-  console.log(isPasswordMatched)
+  console.log(isPasswordMatched);
 
   if (!isPasswordMatched) {
     return next(new ErrorHandler("Invalid email or password", 401));
   }
   sendToken(user, 200, res);
-
-  
 });
-
 
 // Log Out  User
 
-exports.logout = catchAsyncError(async (req,res,next)=>{
- 
- res.cookie("token", null,{
-     expires:new Date(Date.now()),
-     httpOnly:true
- })
- 
- 
+exports.logout = catchAsyncError(async (req, res, next) => {
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  });
+
   res.status(200).json({
-    success:true,
-    message:"Logged Out Successfully"
-  })
-})
+    success: true,
+    message: "Logged Out Successfully",
+  });
+});
+
+// Forgot Password
+exports.forgotPassword = catchAsyncError(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new ErrorHandler("User Not Found", 404));
+  }
+
+  // Get Reset Password Token
+
+  const resetToken = user.getResetPasswordToken();
+  await user.save({ validateBeforeSave: false });
+
+  const resetPasswordUrl = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/password/reset/${resetToken}`;
+
+  const message = ` Your password reset token is:- \n\n ${resetPasswordUrl} \n\n If you have not requested this email then,Please ignore it`;
+
+  try{
+
+  }catch(error){
+  user.resetPasswordToken = undefined;
+  user.restPasswordExpire = undefined;
+
+  await user.save({validateBeforeSave});
+
+  return next(new ErrorHandler(error.message,500))
+  }
+});

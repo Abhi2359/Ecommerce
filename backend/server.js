@@ -6,8 +6,6 @@ const server = app.listen(process.env.PORT, () => {
 
 const connectDataBase = require("./config/database");
 
-
-
 // Handling Uncaught Exception
 process.on("uncaughtException", (err) => {
   console.log(`Error:${err.message}`);
@@ -19,9 +17,6 @@ process.on("uncaughtException", (err) => {
 
 // connecting to data Base
 connectDataBase();
-
-
-
 
 // Unhandled Promise Rejection
 process.on("unhandledRejection", (err) => {
