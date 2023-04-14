@@ -3,6 +3,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncError = require("../middleware/catchAsyncErrors");
 const User = require("../models/userModel");
 const sendToken = require("../utils/jwtToken");
+const sendEmail = require('../utils/sendEmail')
 
 exports.registerUser = catchAsyncError(async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -79,6 +80,16 @@ exports.forgotPassword = catchAsyncError(async (req, res, next) => {
 
   try{
 
+    await sendEmail({
+      email:user.email,
+      subject:`Ecommerce Password Recovery`,
+      message,
+    })
+
+   res.status(200).json({
+    success:true,
+    message:`Email sent to ${user.email} successfully`
+   })
   }catch(error){
   user.resetPasswordToken = undefined;
   user.restPasswordExpire = undefined;
