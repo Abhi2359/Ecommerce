@@ -6,12 +6,30 @@ module.exports = (err, req, res, next) => {
 
   // Handling Cast Error of MongoDb
 
-  if (err.name === "CastError") {
-    return res.status(400).json({
-      success: false,
-      message: "Resource Not Found",
-      error: `Invalid ${err.path}: ${err.value}. Please provide a valid ${err.kind}.`,
-    });
+  if(err.name === "CastError"){
+    const message = `Resoruce not found. Invalid: ${err.path}`;
+    err = new ErrorHandler(message,400);
+  }
+
+  //Mongoose Duplicate Key Error
+
+  if(err.code === 11000){
+    const message = `Duplicate ${Object.keys(err.keyValue)} Entered`;
+    err = new ErrorHandler(message,400);
+  }
+
+  // Wrong Json Web Token
+   
+  if(err.name === "JsonWebTokenError"){
+    const message = `Json Web Token is Invalid,Try again`;
+    err = new ErrorHandler(message,400);
+  }
+
+  // JWT Expire Error
+   
+  if(err.name === "TokenExpiredError"){
+    const message = `Json Web Token is Expired,Try again`;
+    err = new ErrorHandler(message,400);
   }
 
   res.status(err.statusCode).json({
