@@ -15,7 +15,12 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.authorizeRoles = (...roles) => {
-  return (req, res, next) => {
+  return async (req, res, next) => {
+    // if (!req.user) {
+    //   return next(new ErrorHandler("Please login to access this resource", 401));
+    // }
+
+    const user = await User.findById(req.user.id);
     console.log(req.user.role);
     if (!roles.includes(req.user.role)) {
       return next(
