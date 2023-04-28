@@ -16,7 +16,7 @@
 }
 
 .bm-cross {
-  background: #bdc3c7;
+  background: #0c0d0d;
   height: 84px;
   width: 84px;
   margin-right: 40px;
@@ -24,7 +24,7 @@
 }
 
 .bm-menu {
-  background: #e10b8b;
+  background:#FFA500;
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
   
@@ -41,7 +41,7 @@
 }
 
 .bm-menu-item:hover a {
-  color: #fff;
+  color: #070606;
 }
 
 .bm-item-list {
@@ -53,10 +53,18 @@
 }
 
 .bm-item-list a:hover {
-  color: #fff;
+  color:#F5F5F5;
 }
 
 .icon {
   display: inline-block;
   margin-right: 10px;
+}
+
+/* .bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+} */
+
+.logo{
+  width: 200px;
 }
