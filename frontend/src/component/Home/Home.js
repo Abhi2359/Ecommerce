@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {CgMouse} from 'react-icons/cg'
 import './Home.css'
 import Product from "./Product.js"
 import MetaData from '../layout/MetaData'
+import {getProduct} from "../../actions/productAction"
+import {useSelector,useDispatch} from "react-redux"
 
 const product = {
   name:"Blue T-Shirt",
@@ -11,6 +13,12 @@ const product = {
   _id:"abhishek"
 }
 const Home = () => {
+const dispatch = useDispatch();
+const {}= useSelector(state =>state.products)
+
+    useEffect(()=>{
+        dispatch(getProduct())
+    },[dispatch])
   return (
   <>
   <MetaData title="EOMMERCE"/>
