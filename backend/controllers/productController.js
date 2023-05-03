@@ -3,9 +3,11 @@ const mongoose = require("mongoose");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncError = require("../middleware/catchAsyncErrors");
 const ApiFeatures = require("../utils/apiFeatures");
-const { ProductionQuantityLimitsRounded } = require("@mui/icons-material");
+
+
 // Create Product -- Admin
 exports.createProduct = catchAsyncError(async (req, res, next) => {
+  
   req.body.user = req.user.id;
   const product = await Product.create(req.body);
   res.status(201).json({
@@ -17,7 +19,7 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
 exports.getAllProducts = catchAsyncError(async (req, res,next) => {
  
   const resultsPerPage = 8;
-  const productCount = await Product.countDocuments();
+  const productsCount = await Product.countDocuments();
 
   const apiFeature = new ApiFeatures(Product.find(), req.query)
     .search()
@@ -28,7 +30,7 @@ exports.getAllProducts = catchAsyncError(async (req, res,next) => {
   res.status(200).json({
     success: true,
     products,
-    productCount,
+    productsCount,
   });
 });
 
@@ -43,7 +45,7 @@ exports.getProductDetails = catchAsyncError(async (req, res, next) => {
   res.status(200).json({
     success: true,
     product,
-    productCount,
+  
   });
 });
 
