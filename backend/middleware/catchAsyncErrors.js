@@ -3,3 +3,4 @@ const asyncErrorHandler = (fn) => (req, res, next) => {
 };
 
 module.exports = asyncErrorHandler;
+
